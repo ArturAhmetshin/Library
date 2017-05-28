@@ -1,0 +1,63 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'spring-boot'
+
+war {
+    baseName = 'springlibrary'
+    version = '0.0.1-SNAPSHOT'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+// репозиторий для скачивания зависимостей primefaces
+    maven {
+        url 'http://repository.primefaces.org'
+    }
+}
+
+ext['hibernate.version'] = '5.1.3.Final'
+
+configurations {
+    providedRuntime
+    compile.exclude module: 'spring-boot-starter-tomcat'
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-data-jpa:+')
+    compile('org.springframework.boot:spring-boot-starter-web:+')
+    compile('org.springframework.boot:spring-boot-starter-security:+')
+    compile('org.springframework.boot:spring-boot-starter-actuator:+')
+    compile('org.springframework.boot:spring-boot-starter-aop:+')
+
+    compile 'org.projectlombok:lombok:+'
+    compile 'com.google.guava:guava:+'
+
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
+    compileOnly 'javax:javaee-api:7.0'
+
+    // frontend
+    compile 'org.primefaces:primefaces:6.0'
+    compile group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
+    compile 'org.omnifaces:omnifaces:2.5.1'
+    compile 'net.bootsfaces:bootsfaces:1.0.0'
+
+    compile 'commons-io:commons-io:+'// Для загрузки файлов в приложении
+    compile 'commons-fileupload:commons-fileupload:+'
+
+    compile('org.primefaces.themes:bootstrap:1.0.10')
+}
